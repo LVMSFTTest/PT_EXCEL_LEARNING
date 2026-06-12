@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Fundamentals — 3-Hour Session</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1628;--card:#111e30;--alt:#182840;--code:#08101e;--accent:#3b82f6;--glow:rgba(59,130,246,.10);--teal:#2dd4bf;--purple:#a78bfa;--gold:#facc15;--coral:#fb7185;--green:#34d399;--orange:#fb923c;--sky:#7dd3fc;--text:#e2e8f0;--muted:#7e8fa6;--dim:#4b5e74;--border:#1e2d42;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;}
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,22,40,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-brand{padding:10px 20px 0;display:flex;align-items:center;gap:10px;}
+.nav-logo{font-size:20px;}
+.nav-title{font-family:"Playfair Display",serif;font-size:14px;font-weight:800;color:var(--accent);}
+.nav-sub{font-size:11px;color:var(--muted);margin-left:auto;padding-right:20px;}
+.nav-tabs{display:flex;overflow-x:auto;padding:6px 12px;gap:3px;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{flex-shrink:0;padding:7px 13px;border-radius:8px;font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .25s;border:1px solid transparent;white-space:nowrap;}
+.nav-tab:hover{color:var(--text);background:var(--card);}
+.nav-tab.active{color:var(--accent);background:var(--glow);border-color:rgba(59,130,246,.28);}
+.nav-tab .num{font-family:"JetBrains Mono",monospace;font-size:9px;opacity:.6;margin-right:4px;}
+.pages-wrap{margin-top:86px;height:calc(100vh - 86px);overflow:hidden;}
+.page{display:none;height:100%;overflow-y:auto;padding:28px 20px 70px;}
+.page.active{display:block;}
+.pg{max-width:860px;margin:0 auto;}
+h1{font-family:"Playfair Display",serif;font-size:30px;font-weight:800;margin-bottom:6px;line-height:1.2;}
+h2{font-family:"Playfair Display",serif;font-size:21px;font-weight:700;margin:28px 0 12px;color:var(--accent);}
+h3{font-size:16px;font-weight:700;margin:16px 0 8px;color:var(--teal);}
+p,li{font-size:14px;line-height:1.75;margin-bottom:7px;}
+.sub{font-size:15px;color:var(--muted);margin-bottom:22px;line-height:1.6;}
+ul{padding-left:18px;}
+.cd{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:12px 0;}
+.cd.hl{border-left:4px solid var(--accent);}
+.cd.warn{border-left:4px solid var(--gold);}
+.cd.err{border-left:4px solid var(--coral);}
+.cd.ok{border-left:4px solid var(--green);}
+.cd.info{border-left:4px solid var(--sky);}
+.cd.purp{border-left:4px solid var(--purple);}
+.cd.tl{border-left:4px solid var(--teal);}
+.cd.addon{border-left:4px solid var(--orange);background:linear-gradient(135deg,rgba(251,146,60,.04),rgba(251,146,60,.01));}
+.tg{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border-radius:5px;margin-bottom:8px;}
+.tg.bl{background:rgba(59,130,246,.12);color:var(--accent);}
+.tg.yl{background:rgba(250,204,21,.12);color:var(--gold);}
+.tg.gn{background:rgba(52,211,153,.12);color:var(--green);}
+.tg.rd{background:rgba(251,113,133,.12);color:var(--coral);}
+.tg.sk{background:rgba(125,211,252,.12);color:var(--sky);}
+.tg.pp{background:rgba(167,139,250,.12);color:var(--purple);}
+.tg.or{background:rgba(251,146,60,.12);color:var(--orange);}
+.tg.tl{background:rgba(45,212,191,.12);color:var(--teal);}
+.fm{background:var(--code);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:10px 0;font-family:"JetBrains Mono",monospace;font-size:13.5px;color:var(--accent);letter-spacing:.3px;text-align:center;}
+.co{background:var(--code);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:10px 0;overflow-x:auto;}
+.co code{font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.8;color:var(--text);white-space:pre;}
+.ex{background:linear-gradient(135deg,rgba(59,130,246,.04),rgba(45,212,191,.03));border:1px solid rgba(59,130,246,.15);border-radius:14px;padding:18px;margin:12px 0;}
+.ex .et{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;}
+.tb th{background:var(--alt);color:var(--accent);padding:8px 11px;text-align:left;font-weight:700;font-size:11.5px;letter-spacing:.4px;border-bottom:2px solid var(--border);}
+.tb td{padding:8px 11px;border-bottom:1px solid var(--border);}
+.tb tr:hover td{background:rgba(59,130,246,.03);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0;}
+.gc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px;}
+.gc.pro{border-top:3px solid var(--green);}.gc.con{border-top:3px solid var(--coral);}
+.gc h4{font-size:13px;font-weight:700;margin-bottom:7px;}
+.gc.pro h4{color:var(--green);}.gc.con h4{color:var(--coral);}
+.gc ul{padding-left:14px;}.gc li{font-size:12.5px;margin-bottom:4px;color:var(--muted);}
+.bds{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;}
+.bd{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;flex:1;min-width:100px;text-align:center;}
+.bd .v{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:700;color:var(--accent);}
+.bd .l{font-size:10px;color:var(--muted);margin-top:2px;}
+.st{counter-reset:s;list-style:none;padding:0;}
+.st li{counter-increment:s;padding:10px 10px 10px 46px;position:relative;margin-bottom:6px;border-radius:10px;background:var(--card);border:1px solid var(--border);}
+.st li::before{content:counter(s);position:absolute;left:11px;top:10px;width:24px;height:24px;background:var(--glow);border:1px solid rgba(59,130,246,.25);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--accent);}
+.fl{display:flex;align-items:center;gap:6px;margin:12px 0;flex-wrap:wrap;}
+.fb{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600;min-width:80px;text-align:center;}
+.sc{display:inline-block;background:var(--code);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--teal);}
+.timeline{position:relative;padding-left:28px;margin:14px 0;}
+.timeline::before{content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:13px;}
+.tl-item::before{content:"";position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);}
+.tl-item .tl-time{font-size:11px;font-weight:700;color:var(--accent);font-family:"JetBrains Mono",monospace;margin-bottom:2px;}
+.tl-item .tl-title{font-size:14px;font-weight:700;}
+.tl-item .tl-desc{font-size:12px;color:var(--muted);}
+.qz{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:12px 0;}
+.qz .qt{font-weight:600;margin-bottom:10px;font-size:13.5px;}
+.qo{display:block;padding:8px 12px;margin:4px 0;border-radius:8px;border:1px solid var(--border);background:var(--alt);cursor:pointer;font-size:12.5px;color:var(--muted);transition:all .2s;}
+.qo:hover{border-color:var(--accent);color:var(--text);}
+.qo.ok{border-color:var(--green);background:rgba(52,211,153,.07);color:var(--green);}
+.qo.no{border-color:var(--coral);background:rgba(251,113,133,.07);color:var(--coral);}
+.qf{display:none;margin-top:8px;padding:9px 12px;border-radius:8px;font-size:12px;line-height:1.6;}
+.qf.show{display:block;}.qf.r{background:rgba(52,211,153,.07);color:var(--green);}.qf.w{background:rgba(251,113,133,.07);color:var(--coral);}
+.ws-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin:12px 0;}
+.ws-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.ws-num{width:34px;height:34px;background:var(--glow);border:1px solid rgba(59,130,246,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:700;color:var(--accent);flex-shrink:0;}
+.ws-title{font-size:15px;font-weight:700;}
+.ws-time{font-size:11px;color:var(--muted);margin-top:2px;}
+.ws-tasks{list-style:none;padding:0;margin-top:8px;}
+.ws-tasks li{padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:8px;}
+.ws-tasks li:last-child{border-bottom:none;}
+.ws-tasks li::before{content:"◻";color:var(--accent);font-size:12px;flex-shrink:0;margin-top:1px;}
+.ws-tasks li strong{color:var(--text);}
+.prog{position:fixed;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--teal));transition:width .15s;z-index:100;}
+.score-bar{position:fixed;bottom:10px;right:16px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;font-family:"JetBrains Mono",monospace;color:var(--accent);z-index:99;display:none;}
+@media(max-width:700px){h1{font-size:22px;}h2{font-size:18px;}.g2,.g3{grid-template-columns:1fr;}.page{padding:18px 12px 60px;}.nav-tab{font-size:10px;padding:5px 8px;}}
+</style>
+</head>
+<body>
+<nav class="top-nav">
+  <div class="nav-brand">
+    <span class="nav-logo">📊</span>
+    <span class="nav-title">Excel Fundamentals — 3-Hour Session</span>
+    <span class="nav-sub">Beginner to Intermediate</span>
+  </div>
+  <div class="nav-tabs" id="navTabs"></div>
+</nav>
+<div class="pages-wrap">
+
+<div class="page" id="page-0"><div class="pg">
+<h1>Welcome to Excel Fundamentals</h1>
+<p class="sub">A complete 3-hour beginner-to-intermediate journey — real examples, hands-on exercises, and practical tips you will use every day.</p>
+<h2>Session Agenda</h2>
+<div class="timeline">
+  <div class="tl-item"><div class="tl-time">0:00 – 0:25</div><div class="tl-title">Module 1 — Excel Interface</div><div class="tl-desc">Workbook, Ribbon, Cells, Formula Bar, shortcuts, absolute vs relative references</div></div>
+  <div class="tl-item"><div class="tl-time">0:25 – 0:50</div><div class="tl-title">Module 2 — Formulas and Basic Functions</div><div class="tl-desc">SUM, COUNT, AVERAGE, SUMIF, COUNTIF, MAX, MIN, ROUND</div></div>
+  <div class="tl-item"><div class="tl-time">0:50 – 1:10</div><div class="tl-title">Module 3 — Text Functions and Dates</div><div class="tl-desc">LEFT, RIGHT, MID, LEN, TRIM, CONCATENATE, FIND, DAYS, TODAY, YEAR</div></div>
+  <div class="tl-item"><div class="tl-time">1:10 – 1:30</div><div class="tl-title">Module 4 — Lookup and Conditional Logic</div><div class="tl-desc">VLOOKUP, HLOOKUP, IF, Nested IF, IFERROR and common errors</div></div>
+  <div class="tl-item"><div class="tl-time">1:30 – 1:50</div><div class="tl-title">Module 5 — Data Cleaning</div><div class="tl-desc">Remove duplicates, TRIM workflow, Text to Columns, find blanks, SUBSTITUTE</div></div>
+  <div class="tl-item"><div class="tl-time">1:50 – 2:10</div><div class="tl-title">Module 6 — Conditional Formatting</div><div class="tl-desc">Highlight rules, Color Scales, Icon Sets, Data Bars — Student Result exercise</div></div>
+  <div class="tl-item"><div class="tl-time">2:10 – 2:30</div><div class="tl-title">Module 7 — Sort, Filter, Subtotals and Tables</div><div class="tl-desc">Multi-level sort, AutoFilter, SUBTOTAL(), converting ranges to Tables</div></div>
+  <div class="tl-item"><div class="tl-time">2:30 – 2:45</div><div class="tl-title">⭐ Bonus — Add-on Topics</div><div class="tl-desc">Freeze Panes, Named Ranges, Drop-down Lists, Pivot Table intro, Flash Fill, XLOOKUP</div></div>
+  <div class="tl-item"><div class="tl-time">2:45 – 3:00</div><div class="tl-title">Workshop + Quiz</div><div class="tl-desc">Student Result exercise + 3 practice tasks + 10-question knowledge check</div></div>
+</div>
+<h2>Our Dataset: Shopping Mall Data</h2>
+<div class="ex"><div class="et">🛍️ customer_shopping_data — used throughout the session</div>
+<table class="tb">
+  <tr><th>invoice_no</th><th>gender</th><th>age</th><th>category</th><th>quantity</th><th>price</th><th>payment_method</th><th>shopping_mall</th></tr>
+  <tr><td>I138884</td><td>Female</td><td>28</td><td>Clothing</td><td>5</td><td>1500.40</td><td>Credit Card</td><td>Kanyon</td></tr>
+  <tr><td>I317333</td><td>Male</td><td>21</td><td>Shoes</td><td>3</td><td>1800.51</td><td>Debit Card</td><td>Forum Istanbul</td></tr>
+  <tr><td>I127801</td><td>Male</td><td>20</td><td>Clothing</td><td>1</td><td>300.08</td><td>Cash</td><td>Metrocity</td></tr>
+  <tr><td colspan="8" style="color:var(--muted);text-align:center;font-style:italic;">... 200 rows total</td></tr>
+</table></div>
+<div class="cd ok"><span class="tg gn">Before We Start</span>
+<p>Open <strong>Excel_Fundamentals_To_be_shared_with_Student.xlsx</strong>. You will see sheets: customer_shopping_data, Text Function, VLOOKUP, HLOOKUP, Conditional Functions, Sort and Filter, Practice 1, Practice 2. We work through each one during the session.</p></div>
+<h2>Why Excel?</h2>
+<div class="g3">
+  <div class="gc"><h4 style="color:var(--accent);">Data Analysis</h4><p style="font-size:12.5px;color:var(--muted);">Summarize thousands of rows instantly with formulas and Pivot Tables.</p></div>
+  <div class="gc"><h4 style="color:var(--teal);">Data Cleaning</h4><p style="font-size:12.5px;color:var(--muted);">Fix messy data — remove spaces, standardize formats, handle blanks.</p></div>
+  <div class="gc"><h4 style="color:var(--green);">Visualization</h4><p style="font-size:12.5px;color:var(--muted);">Conditional formatting and charts make numbers instantly readable.</p></div>
+</div>
+</div></div>
+
+<div class="page" id="page-1"><div class="pg">
+<h1>Excel Interface</h1>
+<p class="sub">Before writing a formula, know your workspace. Excel has 8 key parts — master these and everything else becomes easy.</p>
+<h2>The 8 Key Parts</h2>
+<div class="g2">
+  <div class="cd hl"><span class="tg bl">1. Workbook</span><p>The entire file (like a physical book). One workbook = one .xlsx file. Can contain many worksheets inside.</p></div>
+  <div class="cd tl"><span class="tg tl">2. Worksheets</span><p>Individual pages inside the workbook. Click the + at the bottom to add more. Right-click a tab to rename it.</p></div>
+  <div class="cd purp"><span class="tg pp">3. The Ribbon</span><p>The toolbar at the top with tabs: Home, Insert, Formulas, Data, Review, View. Everything you need lives here.</p></div>
+  <div class="cd warn"><span class="tg yl">4. Formula Bar</span><p>Below the ribbon. Shows the actual formula inside a selected cell (not just the result). Click here to edit formulas.</p></div>
+  <div class="cd ok"><span class="tg gn">5. Name Box</span><p>Left of the Formula Bar. Shows selected cell address (A1, B3...). Type any address here and press Enter to jump there.</p></div>
+  <div class="cd info"><span class="tg sk">6. Cells, Rows, Columns</span><p>Cells are individual boxes. Columns go A, B, C... (vertical). Rows go 1, 2, 3... (horizontal). Cell A1 = column A, row 1.</p></div>
+</div>
+<h2>Cell Address System</h2>
+<div class="ex"><div class="et">🏙️ Think of it like a city</div>
+<p>Columns are street names (A, B, C...). Rows are floor numbers (1, 2, 3...). Cell <strong>C5</strong> means Street C, Floor 5. Easy to navigate once you think of it this way.</p>
+<div style="background:var(--code);border-radius:10px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:10px;">
+<span style="color:var(--muted);">    A        B        C        D</span><br>
+<span style="color:var(--muted);">1 | Name  | Score1 | Score2 | Total</span><br>
+<span style="color:var(--muted);">2 | Priya |   85   |   90   | <span style="color:var(--green);">=SUM(B2:C2)</span></span><br>
+<span style="color:var(--muted);">3 | Arjun |   70   |   78   | <span style="color:var(--green);">=SUM(B3:C3)</span></span><br>
+</div></div>
+<h2>Important Ribbon Tabs</h2>
+<table class="tb">
+  <tr><th>Tab</th><th>What You Find There</th><th>When to Use</th></tr>
+  <tr><td><strong style="color:var(--accent);">Home</strong></td><td>Copy, Paste, Font, Alignment, Conditional Formatting</td><td>Most of the time — daily use</td></tr>
+  <tr><td><strong style="color:var(--teal);">Insert</strong></td><td>Charts, Tables, Pivot Tables, Images</td><td>Adding visuals and structures</td></tr>
+  <tr><td><strong style="color:var(--purple);">Formulas</strong></td><td>Function library, Named Ranges, Formula Auditing</td><td>When you forget a function name</td></tr>
+  <tr><td><strong style="color:var(--gold);">Data</strong></td><td>Sort, Filter, Text to Columns, Remove Duplicates</td><td>Cleaning and organizing data</td></tr>
+</table>
+<h2>Essential Keyboard Shortcuts</h2>
+<div class="g2">
+  <div class="cd"><span class="tg bl">Navigation</span>
+  <p><span class="sc">Ctrl+Home</span> Go to cell A1</p>
+  <p><span class="sc">Ctrl+End</span> Last used cell</p>
+  <p><span class="sc">Ctrl+Arrow</span> Jump to last filled cell</p>
+  <p><span class="sc">Ctrl+G</span> Go To any cell</p>
+  <p><span class="sc">Ctrl+S</span> Save (do this often!)</p>
+  </div>
+  <div class="cd"><span class="tg tl">Editing</span>
+  <p><span class="sc">Ctrl+Z</span> Undo</p>
+  <p><span class="sc">Ctrl+Y</span> Redo</p>
+  <p><span class="sc">F2</span> Edit the selected cell</p>
+  <p><span class="sc">F4</span> Toggle $ in references</p>
+  <p><span class="sc">Alt+=</span> AutoSum shortcut</p>
+  </div>
+  <div class="cd"><span class="tg pp">Selection</span>
+  <p><span class="sc">Ctrl+A</span> Select all</p>
+  <p><span class="sc">Ctrl+Shift+Arrow</span> Select to edge</p>
+  <p><span class="sc">Ctrl+T</span> Create a Table</p>
+  <p><span class="sc">Ctrl+`</span> Show all formulas</p>
+  <p><span class="sc">Ctrl+E</span> Flash Fill</p>
+  </div>
+  <div class="cd"><span class="tg gn">Fill Handle</span>
+  <p>The small square at the <strong>bottom-right</strong> of a selected cell.</p>
+  <p>Drag it down to copy a formula or auto-fill a sequence.</p>
+  <p><strong>Double-click</strong> it to fill the entire column instantly!</p>
+  </div>
+</div>
+<h2>Absolute vs Relative References — The $ Sign</h2>
+<div class="cd warn"><span class="tg yl">When you copy a formula, Excel moves the references with it. Use $ to lock them.</span>
+<table class="tb">
+  <tr><th>Type</th><th>Syntax</th><th>Locks</th><th>Use when</th></tr>
+  <tr><td>Relative</td><td><span class="sc">A1</span></td><td>Nothing — adjusts on copy</td><td>Normal formulas down a column</td></tr>
+  <tr><td>Absolute</td><td><span class="sc">$A$1</span></td><td>Both row and column</td><td>Tax rate, constants, VLOOKUP table</td></tr>
+  <tr><td>Mixed</td><td><span class="sc">$A1</span> or <span class="sc">A$1</span></td><td>Column only, or row only</td><td>Multiplication tables</td></tr>
+</table>
+<p style="margin-top:8px;">Press <span class="sc">F4</span> after clicking a cell reference to cycle through all four types automatically.</p></div>
+</div></div>
+
+<div class="page" id="page-2"><div class="pg">
+<h1>Formulas and Basic Functions</h1>
+<p class="sub">Every formula starts with = and tells Excel to calculate. These 8 functions cover 80% of what you will ever need.</p>
+<h2>Formula Anatomy</h2>
+<div class="fm">= FUNCTION_NAME ( argument1 , argument2 , ... )</div>
+<div class="g3">
+  <div style="background:var(--code);border-radius:8px;padding:10px;text-align:center;"><p style="color:var(--coral);font-size:16px;font-weight:700;">=</p><p style="color:var(--muted);font-size:11px;">Tells Excel this is a formula, not plain text</p></div>
+  <div style="background:var(--code);border-radius:8px;padding:10px;text-align:center;"><p style="color:var(--accent);font-size:16px;font-weight:700;">SUM</p><p style="color:var(--muted);font-size:11px;">The function — what Excel should do</p></div>
+  <div style="background:var(--code);border-radius:8px;padding:10px;text-align:center;"><p style="color:var(--green);font-size:14px;font-weight:700;">(F2:F201)</p><p style="color:var(--muted);font-size:11px;">Arguments — the data to work on</p></div>
+</div>
+<h2>SUM — Add Everything Up</h2>
+<div class="fm">=SUM(range)</div>
+<div class="ex"><div class="et">🛍️ Shopping data — total of all prices</div>
+<div class="co"><code>=SUM(F2:F201)        ← adds every price in the dataset
+=SUM(F2,F5,F10)      ← add specific individual cells
+=SUM(F2:F10,F20:F30) ← add two separate ranges</code></div>
+<p>Shortcut: Click where you want the total, press <span class="sc">Alt+=</span> and Excel guesses the range!</p></div>
+<h2>SUMIF — Add Only Matching Rows</h2>
+<div class="fm">=SUMIF( range_to_check , condition , range_to_add )</div>
+<div class="ex"><div class="et">🛍️ Total sales from Shoes category only</div>
+<div class="co"><code>=SUMIF(D2:D201, "Shoes", F2:F201)
+          ↑               ↑              ↑
+    Category col     Must equal     Add prices
+
+=SUMIF(B2:B201, "Female", F2:F201)  ← total spent by female customers
+=SUMIF(E2:E201, ">3",     F2:F201)  ← sum prices where quantity &gt; 3</code></div></div>
+<h2>COUNT, COUNTA, COUNTIF</h2>
+<div class="g3">
+  <div class="cd"><p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);">=COUNT()</p><p style="font-size:12.5px;color:var(--muted);">Counts cells with numbers only.</p><div class="co"><code>=COUNT(F2:F201)
+→ how many price entries</code></div></div>
+  <div class="cd"><p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);">=COUNTA()</p><p style="font-size:12.5px;color:var(--muted);">Counts any non-empty cell.</p><div class="co"><code>=COUNTA(A2:A201)
+→ count all invoice IDs</code></div></div>
+  <div class="cd"><p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--purple);">=COUNTIF()</p><p style="font-size:12.5px;color:var(--muted);">Count cells matching a condition.</p><div class="co"><code>=COUNTIF(I2:I201,"Kanyon")
+→ visits to Kanyon mall</code></div></div>
+</div>
+<h2>AVERAGE, MAX, MIN, ROUND</h2>
+<div class="g2">
+  <div class="cd ok"><p style="color:var(--green);font-weight:700;">AVERAGE</p><div class="co"><code>=AVERAGE(F2:F201)    ← average price
+=AVERAGE(C2:C201)    ← average age</code></div></div>
+  <div class="cd hl"><p style="color:var(--accent);font-weight:700;">MAX and MIN</p><div class="co"><code>=MAX(F2:F201)  ← most expensive
+=MIN(F2:F201)  ← cheapest purchase</code></div></div>
+  <div class="cd warn"><p style="color:var(--gold);font-weight:700;">ROUND and ROUNDUP</p><div class="co"><code>=ROUND(3.567, 2)  → 3.57
+=ROUNDUP(3.1, 0)  → 4
+=ROUNDUP(AVERAGE(F2:F201),0)</code></div></div>
+  <div class="cd"><div class="cd warn"><span class="tg yl">: vs , inside a formula</span><p style="font-size:12.5px;">=SUM(A1:A10) — colon means FROM A1 TO A10 (a range)<br>=SUM(A1,A3,A7) — comma means these 3 specific cells only. They are very different!</p></div></div>
+</div>
+<h2>All Functions at a Glance</h2>
+<table class="tb">
+  <tr><th>Function</th><th>What It Does</th><th>Example</th></tr>
+  <tr><td>=SUM()</td><td>Add all values</td><td>=SUM(A1:A10)</td></tr>
+  <tr><td>=SUMIF()</td><td>Add if condition matches</td><td>=SUMIF(B:B,"Red",A:A)</td></tr>
+  <tr><td>=COUNT()</td><td>Count numbers</td><td>=COUNT(A1:A10)</td></tr>
+  <tr><td>=COUNTIF()</td><td>Count if matches</td><td>=COUNTIF(B:B,"Pass")</td></tr>
+  <tr><td>=AVERAGE()</td><td>Mean value</td><td>=AVERAGE(A1:A10)</td></tr>
+  <tr><td>=MAX()</td><td>Highest value</td><td>=MAX(A1:A10)</td></tr>
+  <tr><td>=MIN()</td><td>Lowest value</td><td>=MIN(A1:A10)</td></tr>
+  <tr><td>=ROUND(num,n)</td><td>Round to n decimals</td><td>=ROUND(3.14159,2) → 3.14</td></tr>
+</table>
+</div></div>
+
+<div class="page" id="page-3"><div class="pg">
+<h1>Text Functions and Dates</h1>
+<p class="sub">Real data is messy — names with extra spaces, dates in wrong formats, text crammed in one column. These functions fix all of that.</p>
+<h2>LEFT, RIGHT, MID — Extract Parts of Text</h2>
+<div class="g3">
+  <div class="cd"><p style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;">=LEFT(text, n)</p><p style="font-size:12.5px;color:var(--muted);">First n characters from left</p><div class="co"><code>=LEFT("I138884",1)
+→ "I"</code></div></div>
+  <div class="cd"><p style="color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;">=RIGHT(text, n)</p><p style="font-size:12.5px;color:var(--muted);">Last n characters from right</p><div class="co"><code>=RIGHT("I138884",6)
+→ "138884"</code></div></div>
+  <div class="cd"><p style="color:var(--purple);font-family:'JetBrains Mono',monospace;font-size:12px;">=MID(text, start, n)</p><p style="font-size:12.5px;color:var(--muted);">n chars starting at position</p><div class="co"><code>=MID("I138884",2,3)
+→ "138"</code></div></div>
+</div>
+<div class="ex"><div class="et">👤 Extract first name from "Priya Sharma"</div>
+<div class="co"><code>=LEFT(A2, FIND(" ",A2)-1)
+→ "Priya"
+
+Step by step:
+FIND(" ",A2)   → space is at position 6
+6 - 1          → 5 characters
+=LEFT(A2,5)    → "Priya"</code></div></div>
+<h2>LEN — Count Characters</h2>
+<div class="fm">=LEN(text)</div>
+<div class="co"><code>=LEN("Hello, world!")  → 13  (counts spaces and punctuation too)
+=LEN(TRIM(A2))       → length after removing extra spaces</code></div>
+<h2>TRIM — Remove Extra Spaces (Most Common Cleaning Function)</h2>
+<div class="cd warn"><span class="tg yl">Most Common Data Problem</span>
+<p>Someone typed "  Clothing  " with spaces. TRIM removes all leading and trailing spaces and collapses internal double spaces to single.</p>
+<div class="co"><code>=TRIM("  Clothing  ")    → "Clothing"
+=TRIM("  Credit  Card") → "Credit Card"</code></div></div>
+<h2>UPPER, LOWER, PROPER — Fix Capitalization</h2>
+<div class="g3">
+  <div class="cd"><div class="co"><code>=UPPER("kanyon")  → "KANYON"</code></div><p style="font-size:12px;color:var(--muted);">ALL CAPS</p></div>
+  <div class="cd"><div class="co"><code>=LOWER("KANYON")  → "kanyon"</code></div><p style="font-size:12px;color:var(--muted);">all lowercase</p></div>
+  <div class="cd"><div class="co"><code>=PROPER("john smith")
+→ "John Smith"</code></div><p style="font-size:12px;color:var(--muted);">First Letter Caps</p></div>
+</div>
+<h2>CONCATENATE and the & Operator</h2>
+<div class="fm">=CONCATENATE(text1, text2) &nbsp; OR &nbsp; =A2 &amp; " " &amp; B2</div>
+<div class="ex"><div class="et">🛍️ Build a label from data columns</div>
+<div class="co"><code>If A2="Priya", B2="Sharma", C2="Clothing"
+
+=A2 &amp; " " &amp; B2             → "Priya Sharma"
+=A2 &amp; " bought " &amp; C2      → "Priya bought Clothing"
+=TEXTJOIN(", ",TRUE,A2:A5)  → "Name1, Name2, Name3, Name4"</code></div></div>
+<h2>FIND — Locate Text Within Text</h2>
+<div class="fm">=FIND( find_this , look_inside , [start_position] )</div>
+<div class="co"><code>=FIND("@","priya@email.com")  → 6  (@ is 6th character)
+=FIND(" ","John Smith")       → 5  (space at position 5)</code></div>
+<h2>Dates and Time in Excel</h2>
+<div class="cd info"><span class="tg sk">How Excel Stores Dates</span>
+<p>Every date is stored as a serial number. January 1 1900 = 1. Today is a number like 45000+. This lets Excel subtract dates to find days between them. You see "05-Aug-2022" only because of number formatting.</p></div>
+<div class="g2">
+  <div class="cd tl"><span class="tg tl">TODAY and NOW</span><div class="co"><code>=TODAY()  → today's date (auto-updates)
+=NOW()    → current date + time</code></div></div>
+  <div class="cd hl"><span class="tg bl">DAYS — count between dates</span><div class="co"><code>=DAYS(end_date, start_date)
+=DAYS(B2,A2)   → days between A2 and B2
+=TODAY()-A2    → days since a past date</code></div></div>
+  <div class="cd purp"><span class="tg pp">DAY, MONTH, YEAR</span><div class="co"><code>=YEAR(A2)   → 2022
+=MONTH(A2)  → 8
+=DAY(A2)    → 5</code></div></div>
+  <div class="cd warn"><span class="tg yl">DATEDIF — Age Calculator</span><div class="co"><code>=DATEDIF(A2,TODAY(),"Y")
+→ full years (perfect for age!)</code></div></div>
+</div>
+</div></div>
+
+<div class="page" id="page-4"><div class="pg">
+<h1>Lookup and Conditional Functions</h1>
+<p class="sub">VLOOKUP and IF together automate what used to take hours. Master these and you will stand out immediately.</p>
+<h2>VLOOKUP — Search a Table Vertically</h2>
+<p>VLOOKUP looks for a value in the first column of a table and returns something from the same row — like searching a phone book by name to find the number.</p>
+<div class="fm">=VLOOKUP( what_to_find , table_range , column_number , FALSE )</div>
+<div class="ex"><div class="et">🛍️ Find category for a given invoice number</div>
+<div class="co"><code>=VLOOKUP("I138884", $A$2:$I$201, 4, FALSE)
+              ↑              ↑          ↑      ↑
+          Invoice ID    Search here   Col 4  Exact
+
+→ Returns "Clothing"  (4th column from A = column D = category)</code></div>
+<table class="tb">
+  <tr><th>Argument</th><th>What to Type</th><th>Explanation</th></tr>
+  <tr><td>lookup_value</td><td>"I138884" or a cell ref</td><td>What you are searching for</td></tr>
+  <tr><td>table_array</td><td>$A$2:$I$201</td><td>The full table — always lock with $</td></tr>
+  <tr><td>col_index_num</td><td>4</td><td>Count from the LEFT of the table range</td></tr>
+  <tr><td>range_lookup</td><td>FALSE</td><td>FALSE = exact match. Always use FALSE!</td></tr>
+</table>
+<div class="co"><code>=VLOOKUP(A2,$A$2:$I$201,6,FALSE)  ← get price for invoice in A2
+=VLOOKUP(A2,$A$2:$I$201,9,FALSE)  ← get shopping mall name</code></div></div>
+<div class="cd warn"><span class="tg yl">Three VLOOKUP Rules to Memorise</span>
+<p>1. The search column MUST be the first column of your table_array. You can only look right, never left.</p>
+<p>2. Always use FALSE (exact match) for the 4th argument — TRUE gives wrong results on unsorted data.</p>
+<p>3. Lock your table range with $ (press F4) so it does not shift when you copy the formula down.</p></div>
+<h2>HLOOKUP — Horizontal Search</h2>
+<div class="fm">=HLOOKUP( what_to_find , table_range , row_number , FALSE )</div>
+<div class="co"><code>If row 1 has: Jan, Feb, Mar, Apr
+If row 2 has: 1000, 1200, 900, 1500
+
+=HLOOKUP("Mar", A1:D2, 2, FALSE) → 900
+Searches across the TOP ROW, returns value from the specified row below.</code></div>
+<h2>IF — Make Decisions in Formulas</h2>
+<div class="fm">=IF( condition , value_if_TRUE , value_if_FALSE )</div>
+<div class="ex"><div class="et">🎓 Student Pass or Fail</div>
+<div class="co"><code>=IF(B2>=50, "Pass", "Fail")
+→ Score 72 → "Pass"  |  Score 40 → "Fail"
+
+=IF(F2>1000, "Premium", "Standard")
+→ Tag shopping transactions by value
+
+=IF(B2="Female", "F", "M")
+→ Shorten gender labels</code></div></div>
+<h2>Nested IF — Multiple Conditions (Grade Calculator)</h2>
+<div class="ex"><div class="et">🎓 Grade Calculator from the Practice Sheet</div>
+<div class="co"><code>=IF(H2>=90,"A++",
+   IF(H2>=80,"A+",
+      IF(H2>=70,"A",
+         IF(H2>=60,"B+",
+            IF(H2>=35,"B","F")))))
+
+Score 95 → A++   |   Score 82 → A+
+Score 71 → A     |   Score 45 → B    |   Score 20 → F
+
+Tip: Count brackets! Each IF needs one opening ( and one closing )
+There are 5 IFs above so you need 5 closing brackets at the end.</code></div></div>
+<h2>IFERROR — Handle Errors Gracefully</h2>
+<div class="fm">=IFERROR( formula_that_might_error , what_to_show_instead )</div>
+<div class="cd ok"><span class="tg gn">Why This Matters</span>
+<p>VLOOKUP throws #N/A when it cannot find a value. IFERROR wraps it so users see "Not Found" instead of a scary error.</p>
+<div class="co"><code>=IFERROR(VLOOKUP(A2,$A$2:$I$201,4,FALSE), "Not Found")
+→ Returns category OR "Not Found" — never shows #N/A
+
+=IFERROR(B2/C2, 0)
+→ Returns 0 instead of #DIV/0! when dividing by zero</code></div></div>
+<h2>Common Error Messages</h2>
+<table class="tb">
+  <tr><th>Error</th><th>Meaning</th><th>Common Cause</th></tr>
+  <tr><td style="color:var(--coral);">#N/A</td><td>Value not found</td><td>VLOOKUP could not find the lookup value</td></tr>
+  <tr><td style="color:var(--coral);">#DIV/0!</td><td>Division by zero</td><td>=A1/B1 where B1 is empty or zero</td></tr>
+  <tr><td style="color:var(--coral);">#VALUE!</td><td>Wrong data type</td><td>Doing math on text ("apple" + 5)</td></tr>
+  <tr><td style="color:var(--coral);">#REF!</td><td>Invalid reference</td><td>Deleted a cell a formula was pointing to</td></tr>
+  <tr><td style="color:var(--coral);">#NAME?</td><td>Unknown function</td><td>Typo in function name (=SUMM instead of =SUM)</td></tr>
+</table>
+</div></div>
+
+<div class="page" id="page-5"><div class="pg">
+<h1>Data Cleaning Techniques</h1>
+<p class="sub">80% of data work is cleaning, not analysing. Master these tools and save hours every week.</p>
+<h2>The 6 Most Common Data Problems</h2>
+<div class="g2">
+  <div class="cd err"><span class="tg rd">Problem 1 — Extra Spaces</span><p>"  Clothing  " looks same as "Clothing" visually but Excel treats them differently. VLOOKUP will fail to match.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: =TRIM(A2)</p></div>
+  <div class="cd err"><span class="tg rd">Problem 2 — Inconsistent Case</span><p>"clothing", "CLOTHING", "Clothing" are all different to Excel. Filters miss rows.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: =PROPER(A2) or =LOWER(A2)</p></div>
+  <div class="cd err"><span class="tg rd">Problem 3 — Duplicate Rows</span><p>Same invoice appearing twice inflates sums and counts.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: Data tab → Remove Duplicates</p></div>
+  <div class="cd err"><span class="tg rd">Problem 4 — Blank Cells</span><p>Missing values cause #DIV/0! errors, wrong averages, broken formulas.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: Ctrl+G → Special → Blanks</p></div>
+  <div class="cd err"><span class="tg rd">Problem 5 — Numbers Stored as Text</span><p>SUM returns 0, numbers left-aligned, green triangle in corner of cells.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: =VALUE(A2) or Data → Text to Columns</p></div>
+  <div class="cd err"><span class="tg rd">Problem 6 — Text in One Column</span><p>"John Smith" when you need first and last name in separate columns.</p><p style="color:var(--green);font-size:12.5px;font-weight:600;">Fix: Data → Text to Columns</p></div>
+</div>
+<h2>Remove Duplicates</h2>
+<ol class="st">
+  <li>Click any cell in the dataset</li>
+  <li>Go to Data tab in the Ribbon</li>
+  <li>Click Remove Duplicates</li>
+  <li>Choose columns to check — tick "Customer Name" AND "Email" to find rows where both match</li>
+  <li>Click OK — Excel tells you how many were removed</li>
+</ol>
+<div class="cd warn"><span class="tg yl">Important</span><p>Always make a backup copy on a separate sheet before removing duplicates. This cannot be easily undone once saved.</p></div>
+<h2>Find and Fill Blank Cells</h2>
+<ol class="st">
+  <li>Select the entire column you want to check</li>
+  <li>Press <span class="sc">Ctrl+G</span> → click Special → tick Blanks → OK</li>
+  <li>All blank cells are now selected</li>
+  <li>Type a value or formula, then press <span class="sc">Ctrl+Enter</span> to fill ALL blanks at once</li>
+</ol>
+<h2>Text to Columns — Split One Column Into Two</h2>
+<div class="ex"><div class="et">👤 Split "John Smith" into "John" and "Smith"</div>
+<ol class="st">
+  <li>Select the column with full names</li>
+  <li>Data tab → Text to Columns</li>
+  <li>Choose Delimited → Next</li>
+  <li>Tick Space as the delimiter → Next</li>
+  <li>Choose destination cell → Finish</li>
+</ol>
+<p>Also works for "John,Smith" (use comma delimiter) or dates formatted as "2022-08-05" (use dash).</p></div>
+<h2>SUBSTITUTE — Find and Replace Inside Formulas</h2>
+<div class="fm">=SUBSTITUTE( text , old_text , new_text )</div>
+<div class="co"><code>=SUBSTITUTE(A2,"  "," ")          → replace double space with single
+=SUBSTITUTE(A2,"Dept.","Department") → standardize abbreviations
+=SUBSTITUTE(A2,"-","")              → remove all hyphens</code></div>
+<h2>Complete Cleaning Workflow</h2>
+<div class="cd ok"><span class="tg gn">Step-by-Step Checklist</span>
+<ol class="st">
+  <li>Remove duplicates (Data → Remove Duplicates)</li>
+  <li>Trim spaces — create helper column with =TRIM(A2), copy → paste as values, delete original</li>
+  <li>Fix capitalization with =PROPER() or =LOWER()</li>
+  <li>Find blank cells with Ctrl+G → Blanks</li>
+  <li>Convert text-numbers with =VALUE() or Text to Columns trick</li>
+  <li>Verify: if =COUNT() and =COUNTA() differ for a column, you have text mixed with numbers</li>
+</ol></div>
+<div class="cd info"><span class="tg sk">Pro Tip — Paste as Values</span><p>After cleaning with =TRIM or =PROPER, copy the cleaned column → right-click → Paste Special → Values Only. This replaces formulas with static clean text so you can delete the original messy column safely.</p></div>
+</div></div>
+
+<div class="page" id="page-6"><div class="pg">
+<h1>Data Visualization with Conditional Formatting</h1>
+<p class="sub">Make your data tell a story without building charts. Conditional formatting colors cells automatically based on their values.</p>
+<h2>The Core Idea</h2>
+<div class="cd hl"><span class="tg bl">How It Works</span><p>You set a rule: "If price is greater than 1000, color it green." Excel applies the formatting automatically to every matching cell and updates it whenever data changes. No manual highlighting needed.</p></div>
+<h2>How to Apply Conditional Formatting</h2>
+<ol class="st">
+  <li>Select the data range you want to format (e.g., F2:F201)</li>
+  <li>Go to Home tab → Conditional Formatting</li>
+  <li>Choose your rule type from the menu</li>
+  <li>Set your condition and choose a color style</li>
+  <li>Click OK</li>
+</ol>
+<h2>The 4 Types</h2>
+<div class="g2">
+  <div class="cd tl"><span class="tg tl">1. Highlight Cell Rules</span><p>Color specific cells based on simple conditions.</p>
+  <table class="tb">
+    <tr><th>Rule</th><th>Example</th></tr>
+    <tr><td>Greater Than</td><td>Price &gt; 1000 → Green</td></tr>
+    <tr><td>Less Than</td><td>Score &lt; 35 → Red</td></tr>
+    <tr><td>Equal To</td><td>Status = "Pass" → Yellow</td></tr>
+    <tr><td>Text Contains</td><td>Category has "Shoes" → Blue</td></tr>
+  </table></div>
+  <div class="cd purp"><span class="tg pp">2. Color Scales</span><p>Grades cells from one color to another based on value. Red to Yellow to Green (low to high).</p>
+  <div style="display:flex;gap:3px;margin:10px 0;border-radius:6px;overflow:hidden;">
+    <div style="flex:1;background:#fb7185;height:22px;"></div>
+    <div style="flex:1;background:#fb923c;height:22px;"></div>
+    <div style="flex:1;background:#facc15;height:22px;"></div>
+    <div style="flex:1;background:#a3e635;height:22px;"></div>
+    <div style="flex:1;background:#34d399;height:22px;"></div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);text-align:center;">Low value → High value</p>
+  <p style="font-size:12.5px;color:var(--muted);">Perfect for: average scores, sales figures, age distribution.</p></div>
+  <div class="cd warn"><span class="tg yl">3. Data Bars</span><p>Creates a mini bar chart inside each cell. Longer bar = higher value.</p>
+  <div style="margin-top:10px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="font-size:11px;width:55px;color:var(--muted);">1800.51</span><div style="background:var(--accent);height:10px;border-radius:3px;opacity:.75;width:90%;"></div></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="font-size:11px;width:55px;color:var(--muted);">600.16</span><div style="background:var(--accent);height:10px;border-radius:3px;opacity:.75;width:32%;"></div></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;width:55px;color:var(--muted);">60.60</span><div style="background:var(--accent);height:10px;border-radius:3px;opacity:.75;width:5%;"></div></div>
+  </div></div>
+  <div class="cd ok"><span class="tg gn">4. Icon Sets</span><p>Adds arrows, traffic lights, or stars to categorize values.</p>
+  <p style="font-size:12.5px;margin:6px 0;"><span style="color:var(--green);">▲</span> High (top 33%)</p>
+  <p style="font-size:12.5px;margin:6px 0;"><span style="color:var(--gold);">▶</span> Medium (middle 33%)</p>
+  <p style="font-size:12.5px;margin:6px 0;"><span style="color:var(--coral);">▼</span> Low (bottom 33%)</p>
+  <p style="color:var(--muted);font-size:12px;margin-top:8px;">Traffic light icons give instant at-a-glance status.</p></div>
+</div>
+<h2>Class Exercise — Student Result Sheet</h2>
+<div class="ex"><div class="et">🎓 Apply Yellow to Pass, Red to Fail in the Result column</div>
+<ol class="st">
+  <li>Select the Result column range (e.g., K2:K51)</li>
+  <li>Home → Conditional Formatting → Highlight Cells Rules → Equal To</li>
+  <li>Type "Pass" → Select "Yellow Fill with Dark Yellow Text" → OK</li>
+  <li>Repeat: Equal To "Fail" → Select "Light Red Fill with Dark Red Text" → OK</li>
+</ol>
+<p style="margin-top:10px;font-weight:600;">Apply color scale to the Average column:</p>
+<ol class="st">
+  <li>Select the Average column range</li>
+  <li>Conditional Formatting → Color Scales → More Rules</li>
+  <li>Set Minimum color to Red and Maximum color to Green → OK</li>
+</ol></div>
+<div class="cd warn"><span class="tg yl">Managing Rules</span><p>To edit or delete rules: Home → Conditional Formatting → Manage Rules. You will see all rules on the selected range. Order matters — the first matching rule wins. Use the arrows to reorder them.</p></div>
+</div></div>
+
+<div class="page" id="page-7"><div class="pg">
+<h1>Sort, Filter, Subtotals and Tables</h1>
+<p class="sub">Organize, slice, and summarize your data without writing formulas. These are Excel most-used data management tools.</p>
+<h2>Sorting Data</h2>
+<div class="g2">
+  <div class="cd"><span class="tg bl">Quick Sort — one column</span>
+  <ol class="st">
+    <li>Click any cell in the column to sort by</li>
+    <li>Data tab → Sort A to Z or Sort Z to A</li>
+    <li>The entire row moves together — all columns stay aligned</li>
+  </ol></div>
+  <div class="cd"><span class="tg tl">Multi-Level Sort</span>
+  <ol class="st">
+    <li>Data tab → Sort (the full dialog)</li>
+    <li>Sort by "Region" A to Z</li>
+    <li>Click Add Level → sort by "Sales" largest to smallest</li>
+    <li>OK — sorts by region first, then by sales within each region</li>
+  </ol></div>
+</div>
+<div class="ex"><div class="et">🛍️ Sort shopping data by age (youngest to oldest)</div>
+<ol class="st">
+  <li>Click any cell in the dataset</li>
+  <li>Data → Sort → Sort by "age" → Cell Values → Smallest to Largest → OK</li>
+</ol>
+<p>Invoice ID, gender, category all stay aligned with the correct age automatically.</p></div>
+<h2>Filtering — Show Only What You Need</h2>
+<ol class="st">
+  <li>Click any cell in the header row</li>
+  <li>Data tab → Filter (dropdown arrows appear on every header)</li>
+  <li>Click any dropdown → untick values you do not want → OK</li>
+  <li>Filtered rows are hidden (still exist, just not shown)</li>
+  <li>To remove: Data → Clear, or click the filter icon again</li>
+</ol>
+<div class="g2">
+  <div class="cd tl"><span class="tg tl">Filter by Text</span>
+  <div class="co"><code>Gender dropdown:
+☑ Male
+☐ Female  ← untick
+
+Only Male rows visible.
+Other rows still exist, just hidden.</code></div></div>
+  <div class="cd purp"><span class="tg pp">Filter by Number</span>
+  <div class="co"><code>Price column → Number Filters
+→ Greater Than → type 1000
+Shows only purchases over 1000
+
+Or use "Top 10" to see
+the highest-priced items.</code></div></div>
+</div>
+<h2>Subtotals — Automatic Group Summaries</h2>
+<div class="cd info"><span class="tg sk">What Subtotals Do</span><p>Subtotals insert summary rows automatically after each group change. For example: a "Total Sales" row after every region group — without you writing a single formula.</p></div>
+<ol class="st">
+  <li>Sort first by the column you want to group by (e.g., Region)</li>
+  <li>Data tab → Subtotal</li>
+  <li>"At each change in" → select "Region"</li>
+  <li>"Use function" → Sum</li>
+  <li>"Add subtotal to" → tick "Sales" → OK</li>
+</ol>
+<p>Click the 1, 2, 3 outline buttons on the left to collapse and expand groups.</p>
+<h2>Converting Data to a Table</h2>
+<div class="cd ok"><span class="tg gn">Tables are Smarter than Plain Ranges</span>
+<div class="g2">
+  <div class="gc pro"><h4>Benefits of Tables</h4><ul><li>Auto-expand when you add rows</li><li>Filter dropdowns built-in</li><li>Formulas auto-copy to new rows</li><li>Structured references: =SUM(Table1[Price])</li></ul></div>
+  <div class="gc con"><h4>When to use plain ranges</h4><ul><li>Small static lookup tables</li><li>Reference data that will not grow</li><li>Complex print layouts</li></ul></div>
+</div></div>
+<h3>Create a Table</h3>
+<ol class="st">
+  <li>Click any cell in your data</li>
+  <li>Insert tab → Table, or press <span class="sc">Ctrl+T</span></li>
+  <li>Check "My table has headers" → OK</li>
+  <li>Rename it: Table Design tab → type a name like "SalesData"</li>
+</ol>
+<h2>SUBTOTAL Function vs Regular SUM</h2>
+<div class="cd warn"><span class="tg yl">Use SUBTOTAL when your data is filtered</span>
+<p>=SUM(F2:F201) still adds ALL rows including hidden ones after filtering. Use =SUBTOTAL to only sum visible rows.</p>
+<div class="co"><code>=SUBTOTAL(9,  F2:F201)  ← 9 = SUM of visible rows only
+=SUBTOTAL(1,  F2:F201)  ← 1 = AVERAGE of visible rows
+=SUBTOTAL(2,  F2:F201)  ← 2 = COUNT of visible rows</code></div></div>
+</div></div>
+
+<div class="page" id="page-8"><div class="pg">
+<h1>Bonus Add-on Topics</h1>
+<p class="sub">Six extra topics not in the original slides — each takes 5 minutes to learn but saves hours in real work. These separate beginners from power users.</p>
+<div class="cd addon"><span class="tg or">Add-on Section — Beyond the Basics</span><p style="font-size:13.5px;">These topics complement everything you have learned today and come up constantly in real jobs.</p></div>
+<h2>1. Freeze Panes — Keep Headers Visible While Scrolling</h2>
+<div class="cd addon"><span class="tg or">Must-Know Practical Skill</span>
+<p>When you scroll down 100 rows, column headers disappear. Freeze them so they are always visible.</p>
+<ol class="st">
+  <li>Click cell A2 (one row below the header row)</li>
+  <li>View tab → Freeze Panes → Freeze Panes</li>
+  <li>Scroll down — row 1 stays frozen at the top!</li>
+</ol>
+<p style="color:var(--muted);font-size:12.5px;margin-top:8px;">To freeze columns too: click cell B2 before freezing. To unfreeze: View → Freeze Panes → Unfreeze Panes.</p></div>
+<h2>2. Named Ranges — Give Cells Friendly Names</h2>
+<div class="cd addon"><span class="tg or">Write Readable Formulas</span>
+<p>Instead of =F2:F201, name it "Prices". Your formulas become readable English.</p>
+<div class="co"><code>Create: Select F2:F201 → click Name Box (top left) → type "Prices" → Enter
+
+Now use it anywhere:
+=SUM(Prices)                      ← instead of =SUM(F2:F201)
+=SUMIF(Category,"Shoes",Prices)   ← much clearer!
+
+Manage all names: Formulas tab → Name Manager</code></div></div>
+<h2>3. Data Validation — Drop-Down Lists</h2>
+<div class="cd addon"><span class="tg or">Prevent Wrong Data Entry</span>
+<p>Create a drop-down so users can only pick from valid options. No typos, no inconsistent values.</p>
+<ol class="st">
+  <li>Select the column where data will be entered</li>
+  <li>Data tab → Data Validation</li>
+  <li>Allow: List → Source: type "Clothing,Shoes,Books,Cosmetics"</li>
+  <li>OK — a dropdown arrow now appears in every cell in that range</li>
+</ol>
+<p style="color:var(--muted);font-size:12.5px;">Or point to a range: Source = $D$1:$D$6 to use a list stored in another column.</p></div>
+<h2>4. Introduction to Pivot Tables</h2>
+<div class="cd addon"><span class="tg or">The Most Powerful Excel Feature</span>
+<p>Pivot Tables summarize thousands of rows by dragging and dropping — no formulas needed at all.</p>
+<div class="ex"><div class="et">🛍️ How much did each category make? Split by gender?</div>
+<ol class="st">
+  <li>Click any cell in the shopping data</li>
+  <li>Insert tab → Pivot Table → OK (new sheet is created)</li>
+  <li>Drag "category" to the Rows area</li>
+  <li>Drag "price" to the Values area (auto-sums!)</li>
+  <li>Drag "gender" to Columns for a breakdown by gender</li>
+</ol>
+<table class="tb">
+  <tr><th>Category</th><th>Female</th><th>Male</th><th>Grand Total</th></tr>
+  <tr><td>Clothing</td><td>45,200</td><td>38,700</td><td>83,900</td></tr>
+  <tr><td>Shoes</td><td>28,500</td><td>31,200</td><td>59,700</td></tr>
+  <tr><td>Cosmetics</td><td>12,300</td><td>4,100</td><td>16,400</td></tr>
+</table>
+<p>That summary was built in 30 seconds with zero formulas!</p></div></div>
+<h2>5. Flash Fill — Excel Learns Your Pattern</h2>
+<div class="cd addon"><span class="tg or">AI-Powered Extraction</span>
+<p>Type one example manually. Press <span class="sc">Ctrl+E</span>. Excel recognizes the pattern and fills the rest of the column.</p>
+<div class="co"><code>Column A: "I138884"   (invoice IDs)
+You want:  "138884"   (number only)
+
+Step 1: In B2, manually type: 138884
+Step 2: Press Ctrl + E
+Excel fills B3, B4, B5... automatically!
+
+Works for: names, phone numbers, dates, codes — any consistent pattern.</code></div></div>
+<h2>6. XLOOKUP — The Modern VLOOKUP (Office 365)</h2>
+<div class="cd addon"><span class="tg or">No More VLOOKUP Limitations</span>
+<p>XLOOKUP fixes every VLOOKUP problem: can look left, handles missing values built-in, simpler syntax.</p>
+<div class="fm" style="font-size:12.5px;">=XLOOKUP( what_to_find , search_column , return_column , [if_not_found] )</div>
+<div class="co"><code>=XLOOKUP(A2, $A$2:$A$201, $F$2:$F$201, "Not Found")
+             ↑          ↑                ↑              ↑
+         Search for  Search here     Return this   If missing
+
+No column numbers to count!
+Can search left, right, or in any direction.
+Error handling built-in — no IFERROR wrapper needed.</code></div></div>
+</div></div>
+
+<div class="page" id="page-9"><div class="pg">
+<h1>Hands-On Workshop</h1>
+<p class="sub">Three exercises of increasing difficulty using the datasets from your Excel file. These mirror real tasks you will face at work.</p>
+<div class="ws-card">
+  <div class="ws-head"><div class="ws-num">1</div><div><div class="ws-title">Student Result Calculator</div><div class="ws-time">15 minutes — Sheet: Practice 1</div></div></div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">A class of students has marks in 3 subjects. Calculate totals, averages, grades, and results using formulas.</p>
+  <ul class="ws-tasks">
+    <li><strong>Total Marks:</strong> SUM the 3 subject columns for each student row</li>
+    <li><strong>Average:</strong> ROUNDUP of AVERAGE of the 3 subjects — round up to whole number</li>
+    <li><strong>Grade:</strong> Nested IF — A++ if avg 90+, A+ if 80+, A if 70+, B+ if 60+, B if 35+, else F</li>
+    <li><strong>Result:</strong> IF Grade equals "F" show "Fail" otherwise show "Pass"</li>
+    <li><strong>Conditional Formatting:</strong> Yellow = Pass, Red = Fail in Result column; color scale on Average</li>
+  </ul>
+  <div class="cd tl" style="margin-top:12px;"><span class="tg tl">Hints</span>
+  <div class="co"><code>Total:   =SUM(C2:E2)
+
+Average (rounded up):   =ROUNDUP(AVERAGE(C2:E2),0)
+
+Grade (full nested IF):
+=IF(H2>=90,"A++",IF(H2>=80,"A+",IF(H2>=70,"A",IF(H2>=60,"B+",IF(H2>=35,"B","F")))))
+
+Result:  =IF(I2="F","Fail","Pass")</code></div></div>
+</div>
+<div class="ws-card">
+  <div class="ws-head"><div class="ws-num">2</div><div><div class="ws-title">Shopping Data Analysis</div><div class="ws-time">15 minutes — Sheet: customer_shopping_data</div></div></div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Use the shopping mall dataset to answer real business questions with formulas.</p>
+  <ul class="ws-tasks">
+    <li><strong>Task 1:</strong> Total revenue from ALL purchases — SUM the price column</li>
+    <li><strong>Task 2:</strong> Average purchase price — AVERAGE of price column</li>
+    <li><strong>Task 3:</strong> Total revenue from "Shoes" category only — SUMIF with category column</li>
+    <li><strong>Task 4:</strong> How many customers paid by "Credit Card"? — COUNTIF</li>
+    <li><strong>Task 5:</strong> Add a new column tagging each purchase "Premium" if price over 1000, else "Standard" — IF</li>
+    <li><strong>Task 6:</strong> Sort by price descending. Apply Data Bars to the price column.</li>
+    <li><strong>Bonus:</strong> Create a VLOOKUP that takes an Invoice ID and returns the Shopping Mall name</li>
+  </ul>
+</div>
+<div class="ws-card">
+  <div class="ws-head"><div class="ws-num">3</div><div><div class="ws-title">Data Cleaning Challenge</div><div class="ws-time">10 minutes — create a new sheet</div></div></div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Clean a messy dataset using everything you learned in Module 5.</p>
+  <ul class="ws-tasks">
+    <li><strong>Step 1:</strong> Copy some rows to a new sheet. Add extra spaces to a few names manually to simulate messy data.</li>
+    <li><strong>Step 2:</strong> Use TRIM to remove extra spaces from customer names</li>
+    <li><strong>Step 3:</strong> Use PROPER to fix capitalization (e.g., "john SMITH" becomes "John Smith")</li>
+    <li><strong>Step 4:</strong> Add a duplicate row manually, then remove it with Data → Remove Duplicates</li>
+    <li><strong>Step 5:</strong> Use Text to Columns to split a "First Last" name into two separate columns</li>
+    <li><strong>Bonus:</strong> Use CONCATENATE to build a fake email: firstname.lastname@mall.com</li>
+  </ul>
+</div>
+<div class="cd ok" style="margin-top:20px;"><span class="tg gn">Session Completion Checklist</span>
+<div class="g2">
+  <div><p style="font-size:13px;font-weight:600;color:var(--teal);margin-bottom:6px;">Formulas Used Today:</p>
+  <p style="font-size:12.5px;color:var(--muted);">&#9744; SUM, AVERAGE, COUNT<br>&#9744; SUMIF, COUNTIF<br>&#9744; IF, Nested IF<br>&#9744; VLOOKUP with IFERROR<br>&#9744; TRIM, PROPER, CONCATENATE<br>&#9744; LEFT, RIGHT, MID, LEN<br>&#9744; DAYS, TODAY</p></div>
+  <div><p style="font-size:13px;font-weight:600;color:var(--teal);margin-bottom:6px;">Features Used Today:</p>
+  <p style="font-size:12.5px;color:var(--muted);">&#9744; Fill Handle (drag and double-click)<br>&#9744; Absolute References ($)<br>&#9744; Conditional Formatting<br>&#9744; Sort and Filter<br>&#9744; Remove Duplicates<br>&#9744; Text to Columns<br>&#9744; Subtotals or Tables</p></div>
+</div></div>
+</div></div>
+
+<div class="page" id="page-10"><div class="pg">
+<h1>Knowledge Check Quiz</h1>
+<p class="sub">10 questions covering everything from today. Read each carefully before clicking.</p>
+<div class="qz" id="q1"><div class="qt">Q1. You want to add up prices in F2:F201. Which formula is correct?</div>
+<div class="qo" onclick="chk('q1',this,false)">A) =ADD(F2:F201)</div>
+<div class="qo" onclick="chk('q1',this,true)">B) =SUM(F2:F201)</div>
+<div class="qo" onclick="chk('q1',this,false)">C) =TOTAL(F2 to F201)</div>
+<div class="qo" onclick="chk('q1',this,false)">D) =SUM(F2;F201)</div>
+<div class="qf" id="q1f"></div></div>
+
+<div class="qz" id="q2"><div class="qt">Q2. In VLOOKUP, what does the 4th argument FALSE mean?</div>
+<div class="qo" onclick="chk('q2',this,false)">A) Return 0 if not found</div>
+<div class="qo" onclick="chk('q2',this,false)">B) Search from bottom to top</div>
+<div class="qo" onclick="chk('q2',this,true)">C) Exact match — only return a result if the value matches perfectly</div>
+<div class="qo" onclick="chk('q2',this,false)">D) Case-sensitive search</div>
+<div class="qf" id="q2f"></div></div>
+
+<div class="qz" id="q3"><div class="qt">Q3. Cell A2 has "  Clothing  " with extra spaces. How do you fix it?</div>
+<div class="qo" onclick="chk('q3',this,false)">A) =CLEAN(A2)</div>
+<div class="qo" onclick="chk('q3',this,true)">B) =TRIM(A2)</div>
+<div class="qo" onclick="chk('q3',this,false)">C) =LEFT(A2,8)</div>
+<div class="qo" onclick="chk('q3',this,false)">D) =SUBSTITUTE(A2," ","")</div>
+<div class="qf" id="q3f"></div></div>
+
+<div class="qz" id="q4"><div class="qt">Q4. What is the Formula Bar in Excel?</div>
+<div class="qo" onclick="chk('q4',this,false)">A) The large area where you write column headers</div>
+<div class="qo" onclick="chk('q4',this,true)">B) The bar below the Ribbon showing the formula or value of the selected cell</div>
+<div class="qo" onclick="chk('q4',this,false)">C) The Quick Access Toolbar at the very top left</div>
+<div class="qo" onclick="chk('q4',this,false)">D) The row of numbers on the left side of the screen</div>
+<div class="qf" id="q4f"></div></div>
+
+<div class="qz" id="q5"><div class="qt">Q5. A student scored 73. Using: A++ 90+, A+ 80+, A 70+, B+ 60+, B 35+, F otherwise — what grade?</div>
+<div class="qo" onclick="chk('q5',this,false)">A) A+</div>
+<div class="qo" onclick="chk('q5',this,true)">B) A</div>
+<div class="qo" onclick="chk('q5',this,false)">C) B+</div>
+<div class="qo" onclick="chk('q5',this,false)">D) B</div>
+<div class="qf" id="q5f"></div></div>
+
+<div class="qz" id="q6"><div class="qt">Q6. In =VLOOKUP("I138884", A2:I201, 4, FALSE) — what does the number 4 represent?</div>
+<div class="qo" onclick="chk('q6',this,false)">A) Look in the 4th row</div>
+<div class="qo" onclick="chk('q6',this,false)">B) Return the 4th match found</div>
+<div class="qo" onclick="chk('q6',this,true)">C) Return the value from the 4th column of table range A2:I201</div>
+<div class="qo" onclick="chk('q6',this,false)">D) Search 4 columns wide</div>
+<div class="qf" id="q6f"></div></div>
+
+<div class="qz" id="q7"><div class="qt">Q7. What keyboard shortcut triggers AutoSum?</div>
+<div class="qo" onclick="chk('q7',this,false)">A) Ctrl + S</div>
+<div class="qo" onclick="chk('q7',this,true)">B) Alt + =</div>
+<div class="qo" onclick="chk('q7',this,false)">C) Ctrl + Sum</div>
+<div class="qo" onclick="chk('q7',this,false)">D) Shift + F4</div>
+<div class="qf" id="q7f"></div></div>
+
+<div class="qz" id="q8"><div class="qt">Q8. You filter to show only Clothing rows. What does =SUM(F2:F201) now return?</div>
+<div class="qo" onclick="chk('q8',this,false)">A) Only the sum of visible Clothing rows</div>
+<div class="qo" onclick="chk('q8',this,true)">B) The sum of ALL rows including hidden ones</div>
+<div class="qo" onclick="chk('q8',this,false)">C) Only the first Clothing row value</div>
+<div class="qo" onclick="chk('q8',this,false)">D) Returns an error when rows are filtered</div>
+<div class="qf" id="q8f"></div></div>
+
+<div class="qz" id="q9"><div class="qt">Q9. =COUNTIF(D2:D201, "Shoes") — what does this return?</div>
+<div class="qo" onclick="chk('q9',this,false)">A) The total price of all Shoes purchases</div>
+<div class="qo" onclick="chk('q9',this,true)">B) The number of rows where category equals "Shoes"</div>
+<div class="qo" onclick="chk('q9',this,false)">C) The average price of Shoes</div>
+<div class="qo" onclick="chk('q9',this,false)">D) The row number of the first "Shoes" entry</div>
+<div class="qf" id="q9f"></div></div>
+
+<div class="qz" id="q10"><div class="qt">Q10. Which formula will NOT show #N/A when the VLOOKUP value is not found?</div>
+<div class="qo" onclick="chk('q10',this,false)">A) =VLOOKUP(A2,$B$2:$D$10,2,FALSE)</div>
+<div class="qo" onclick="chk('q10',this,true)">B) =IFERROR(VLOOKUP(A2,$B$2:$D$10,2,FALSE),"Not Found")</div>
+<div class="qo" onclick="chk('q10',this,false)">C) =VLOOKUP(A2,$B$2:$D$10,2,TRUE)</div>
+<div class="qo" onclick="chk('q10',this,false)">D) =SUM(VLOOKUP(A2,$B$2:$D$10,2,FALSE))</div>
+<div class="qf" id="q10f"></div></div>
+
+<div class="cd hl" id="scoreBox" style="display:none;margin-top:20px;"><span class="tg bl">Quiz Complete!</span>
+<p id="scoreText" style="font-size:15px;font-weight:600;"></p>
+<p id="scoreMsg" style="color:var(--muted);font-size:13px;margin-top:4px;"></p></div>
+
+<h2>Formula Cheat Sheet</h2>
+<div class="g2">
+  <div class="cd"><span class="tg bl">Math and Stats</span><p style="font-size:12px;color:var(--muted);">=SUM(range)<br>=SUMIF(r,crit,sum_r)<br>=AVERAGE(range)<br>=COUNT(range)<br>=COUNTIF(r,crit)<br>=MAX(range) / =MIN(range)<br>=ROUND(num,n) / =ROUNDUP(num,n)</p></div>
+  <div class="cd"><span class="tg tl">Text</span><p style="font-size:12px;color:var(--muted);">=LEFT(t,n) / =RIGHT(t,n) / =MID(t,s,n)<br>=LEN(text)<br>=TRIM(text)<br>=UPPER(t) / =LOWER(t) / =PROPER(t)<br>=CONCATENATE(t1,t2) or t1&amp;" "&amp;t2<br>=FIND(find,in,start)<br>=SUBSTITUTE(t,old,new)</p></div>
+  <div class="cd"><span class="tg pp">Lookup</span><p style="font-size:12px;color:var(--muted);">=VLOOKUP(val,tbl,col,FALSE)<br>=HLOOKUP(val,tbl,row,FALSE)<br>=XLOOKUP(val,s_col,r_col,err)<br>=IFERROR(formula,fallback)<br>=MATCH(val,range,0)</p></div>
+  <div class="cd"><span class="tg gn">Logic and Dates</span><p style="font-size:12px;color:var(--muted);">=IF(cond,t,f)<br>=TODAY() / =NOW()<br>=DAYS(end,start)<br>=YEAR(d) / =MONTH(d) / =DAY(d)<br>=DATEDIF(s,e,"Y") for full years</p></div>
+</div>
+</div></div>
+
+</div><!-- pages-wrap -->
+<div class="prog" id="prog"></div>
+<div class="score-bar" id="scoreBar">0 / 10</div>
+<script>
+var sections=["Agenda","Interface","Functions","Text & Dates","Lookup & IF","Data Cleaning","Cond. Format","Sort & Tables","Bonus Add-ons","Workshop","Quiz"];
+var navTabs=document.getElementById("navTabs");
+var pages=document.querySelectorAll(".page");
+var cur=0;
+sections.forEach(function(n,i){var t=document.createElement("div");t.className="nav-tab"+(i===0?" active":"");t.innerHTML="<span class='num'>"+String(i).padStart(2,"0")+"</span>"+n;t.addEventListener("click",function(){go(i);});navTabs.appendChild(t);});
+function go(i){pages[cur].classList.remove("active");document.querySelectorAll(".nav-tab")[cur].classList.remove("active");cur=i;pages[cur].classList.add("active");document.querySelectorAll(".nav-tab")[cur].classList.add("active");pages[cur].scrollTop=0;document.querySelectorAll(".nav-tab")[cur].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});up();}
+function up(){var p=pages[cur];var pct=p.scrollHeight<=p.clientHeight?100:(p.scrollTop/(p.scrollHeight-p.clientHeight))*100;document.getElementById("prog").style.width=pct+"%";}
+pages.forEach(function(p){p.addEventListener("scroll",up);});
+document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"&&cur<sections.length-1)go(cur+1);if(e.key==="ArrowLeft"&&cur>0)go(cur-1);});
+pages[0].classList.add("active");up();
+var correct=0,answered=0;
+var fb={
+q1:{r:"Correct! =SUM(F2:F201) adds all values from F2 to F201. The colon (:) means from-to and creates a range. There is no =ADD or =TOTAL function. Formulas always start with = and use a colon for ranges.",w:"The correct formula is =SUM(F2:F201). There is no =ADD or =TOTAL in Excel. The colon creates a range (F2 to F201). Semicolons are used in some European Excel versions but colons are the standard."},
+q2:{r:"Correct! FALSE means exact match only. Excel returns a result only if the lookup value matches perfectly. Always use FALSE unless you specifically need approximate matching on sorted numbers.",w:"FALSE means exact match. It tells VLOOKUP to only return a result when the value matches exactly. TRUE means approximate match and can return wrong results on unsorted data."},
+q3:{r:"Correct! =TRIM(A2) removes all leading and trailing spaces and collapses multiple spaces inside text to single spaces. This is the number one data cleaning formula you will use.",w:"TRIM is correct. =SUBSTITUTE(A2,space,empty) would remove ALL spaces including the spaces between words, which destroys the text. TRIM only removes unwanted extra spaces while keeping single spaces between words."},
+q4:{r:"Correct! The Formula Bar sits below the Ribbon and shows exactly what is inside the selected cell — the full formula like =SUM(A1:A10) rather than just the result. You can also type and edit formulas here.",w:"The Formula Bar is below the Ribbon. It shows the actual formula or value of the selected cell — not just the calculated result. This is where you can see and edit what is really inside a cell."},
+q5:{r:"Correct! 73 is 70 or above (A threshold) but less than 80 (A+ threshold). The nested IF checks from highest to lowest: 90+ first (no), then 80+ (no), then 70+ (yes!) and returns A.",w:"73 is 70 or above so it hits the A threshold. The nested IF checks >=90 first (no), then >=80 (no), then >=70 (yes) and returns A. The order of conditions in nested IF matters a lot."},
+q6:{r:"Correct! The 3rd argument is the column index. It tells VLOOKUP which column to return from the table A2:I201. Column 1=A (invoice), 2=B (gender), 3=C (age), 4=D (category). So it returns the category.",w:"The number 4 is the col_index_num. It tells Excel which column to return from the table range A2:I201. Count from the left: 1=invoice_no, 2=gender, 3=age, 4=category."},
+q7:{r:"Correct! Alt + = is the AutoSum shortcut. Click the cell where you want the total, press Alt and = together, and Excel automatically selects the range above or to the left. Press Enter to confirm.",w:"The AutoSum shortcut is Alt + = (hold Alt, press equals sign). Ctrl + S saves the file. This shortcut is one of the fastest ways to add up a column in Excel."},
+q8:{r:"Correct! =SUM includes ALL rows — visible and hidden. Even after filtering to show only Clothing rows, SUM still adds every row. Use =SUBTOTAL(9,F2:F201) to sum only the visible rows.",w:"This is a very common mistake. =SUM(F2:F201) adds ALL 200 rows even when rows are hidden by a filter. To sum only visible rows after filtering, use =SUBTOTAL(9,F2:F201) instead."},
+q9:{r:"Correct! COUNTIF counts cells matching a condition. =COUNTIF(D2:D201,Shoes) counts how many rows in column D contain exactly Shoes. It returns a count number, not a sum of prices.",w:"COUNTIF counts matching rows, not prices. It returns the NUMBER of transactions where category equals Shoes. To get total price of Shoes, use SUMIF instead of COUNTIF."},
+q10:{r:"Correct! IFERROR wraps the VLOOKUP and catches any error it produces — including #N/A when the value is not found — and returns Not Found instead. This is the standard pattern for safe lookups.",w:"IFERROR(VLOOKUP(...),Not Found) is the answer. It catches any error VLOOKUP produces and shows a friendly message instead. Plain VLOOKUP shows #N/A when not found. IFERROR is the fix."}
+};
+function chk(id,el,ok){var c=document.getElementById(id);if(c.classList.contains("done"))return;c.classList.add("done");answered++;var f=document.getElementById(id+"f");if(ok){el.classList.add("ok");f.className="qf show r";f.textContent="Correct! "+fb[id].r;correct++;}else{el.classList.add("no");f.className="qf show w";f.textContent="Not quite. "+fb[id].w;}var sb=document.getElementById("scoreBar");sb.style.display="block";sb.textContent=correct+" / "+answered+" correct";if(answered===10){var box=document.getElementById("scoreBox");box.style.display="block";var pct=Math.round((correct/10)*100);document.getElementById("scoreText").textContent="You scored "+correct+" out of 10 ("+pct+"%)";var msg=pct>=90?"Outstanding! You are ready for Advanced Excel.":pct>=70?"Great job! Review the topics you missed and keep practicing.":pct>=50?"Good effort! Re-read the modules you found tricky.":"Keep going! Work through the modules again and try the workshop exercises.";document.getElementById("scoreMsg").textContent=msg;}}
+</script>
+</body></html>
